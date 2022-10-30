@@ -12,7 +12,8 @@ class AHKLogParser(object):
 
         self.log_filename = log_filename
 
-        self.log_fieldnames = ['timestamp', 'time_idle', 'window_title', 'width', 'height', 'x', 'y']
+        self.log_fieldnames = ['timestamp', 'time_idle',
+                               'window_title', 'width', 'height', 'x', 'y']
 
         self.log_dict = []
         self.read_log()
@@ -107,7 +108,8 @@ class AHKLogParser(object):
         if "duration" in filters:
             match = match and self.match_duration(activity, filters)
         if "is_classified" in filters:
-            match = match and activity.is_classified() == filters["is_classified"]
+            match = match and activity.is_classified(
+            ) == filters["is_classified"]
 
         return match
 
@@ -117,7 +119,8 @@ class AHKLogParser(object):
         classifier = activity["classification"]
 
         # Returns list of bools
-        filter_results = [class_filter in classifier for class_filter in class_filters]
+        filter_results = [
+            class_filter in classifier for class_filter in class_filters]
 
         if comparator == "all":
             return all(filter_results)
@@ -145,7 +148,8 @@ class AHKLogParser(object):
             activity_log = self.activity_log
 
         # counts = {classification: 0 for classification in Utils.classifications.keys()}
-        counts = dict((classification, 0) for classification in Utils.classifiers.keys())
+        counts = dict((classification, 0)
+                      for classification in Utils.classifiers.keys())
         counts["other"] = 0
 
         for activity in activity_log:
@@ -159,7 +163,7 @@ class AHKLogParser(object):
             Count the seconds spent doing something.
             count_property specifies the propery (classification, monitor_number, etc)
                 you want use as the bins the time is added up in.
-                
+
             For example, count the amount of time spent in different classifications of activities
                 or the amount of time spent using one monitor or the other
 
@@ -188,6 +192,7 @@ class AHKLogParser(object):
 
 class Activity:
     """This class holds the data describing the activity and methods to work with the data"""
+
     def __init__(self, log_line):
         self.log_line = log_line
 
@@ -210,9 +215,9 @@ class Activity:
             Returns true if considered the same, false otherwise
         """
         return (other.data['active'] == self.data['active'] and
-            other.data['classification'] == self.data['classification'] and
-            other.data['window_title'] == self.data['window_title'] and
-            not self.check_long_pause(other))
+                other.data['classification'] == self.data['classification'] and
+                other.data['window_title'] == self.data['window_title'] and
+                not self.check_long_pause(other))
 
     def check_long_pause(self, other):
         """
@@ -220,8 +225,10 @@ class Activity:
             compared to the other activity
         """
 
-        this_timestamp = time.mktime(time.strptime(self.data["start_time"], Utils.TIME_TEMPLATE)) + int(self.data["duration"]) - 1
-        other_timestamp = time.mktime(time.strptime(other.data["start_time"], Utils.TIME_TEMPLATE))
+        this_timestamp = time.mktime(time.strptime(
+            self.data["start_time"], Utils.TIME_TEMPLATE)) + int(self.data["duration"]) - 1
+        other_timestamp = time.mktime(time.strptime(
+            other.data["start_time"], Utils.TIME_TEMPLATE))
 
         return other_timestamp - this_timestamp > Utils.LONG_PAUSE
 
@@ -273,10 +280,10 @@ class Utils:
         window_title = log_line["window_title"]
 
         classes = [class_name for class_name, classifier in Utils.classifiers.iteritems()
-            if Utils.match_classifier(window_title, classifier)]
+                   if Utils.match_classifier(window_title, classifier)]
 
         if not classes:
-        	classes = ["other"]
+            classes = ["other"]
 
         return classes
 
