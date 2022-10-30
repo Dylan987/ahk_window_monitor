@@ -6,6 +6,8 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; output_file = %A_ScriptDir%\output_log_%A_MDAY%_%A_Hour%.txt
 
 ; Record data every second
+; Print my PID so I can be stopped
+
 Loop
 {
 	record_window()
@@ -19,5 +21,5 @@ record_window(){
 (
 %time_string%,%A_TimeIdle%,%Title%,%Width%,%Height%,%X%,%Y%
 
-), C:\Users\joe\Documents\ahk_usage_tracker\window_log.txt
+), C:\Users\dylan\Documents\dev\ahk_window_monitor\results.txt
 }

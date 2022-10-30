@@ -39,3 +39,5 @@ nosetests.xml
 
 # Venv
 venv
+results.txt
+.pytest_cache

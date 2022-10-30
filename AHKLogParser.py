@@ -239,6 +239,9 @@ class Activity:
 
     def get_dict(self):
         return self.data
+    
+    def __repr__(self) -> str:
+        return f"Activity<title: {self.data.get('window_title', '')} classification: {self.data.get('classification', '???')}, duration: {self.data.get('duration', '???')}"
 
 
 class Utils:
@@ -254,18 +257,8 @@ class Utils:
     LONG_PAUSE = 60*60*2
 
     classifiers = {
-        "browser": r"(Google Chrome)|(Firefox)",
-        "school": r"(CS 311)|(CS311)|(Quantified Life)|(PSU)|(Theory of Computation)",
-        "command_line": r"(MINGW32)|(cmd\.exe)",
-        "text_editor": r"(Sublime Text)|(notepad)",
-        "programming": r"(Sublime Text)|(Intellij)|(Android Developers)|(Python)|(ahk_usage_tracker)|(Stack Overflow)",
-        "social": r"(Facebook)|(- chat -)",
-        "entertainment": r"(reddit)|(imgur)",
-        "chat": r"(- chat -)",
-        "email": r"(- Gmail -)",
-        "games": r"(Nexus Mod Manager)|(Steam)|(skyrim)|(max payne)",
-        "search": r"(Google Search)",
-        "system": r"(Task Switching)|(Start Menu)|(jdiskreport)|(Libraries)|(\d ((\w+) )*remaining)|(\(\w:\))|(dropbox)",
+        "discord": r".*Discord.*",
+        "entertainment": r".*(reddit|instagram|youtube).*"
     }
 
     @staticmethod
@@ -278,7 +271,7 @@ class Utils:
 
         window_title = log_line["window_title"]
 
-        classes = [class_name for class_name, classifier in Utils.classifiers.iteritems()
+        classes = [class_name for class_name, classifier in Utils.classifiers.items()
                    if Utils.match_classifier(window_title, classifier)]
 
         if not classes:
