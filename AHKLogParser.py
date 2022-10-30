@@ -1,7 +1,6 @@
 import csv
 import re
 import time
-from datetime import datetime
 
 
 class AHKLogParser(object):

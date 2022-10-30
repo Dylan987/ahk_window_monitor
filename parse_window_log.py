@@ -1,5 +1,4 @@
 import argparse
-from pprint import pprint
 
 from AHKLogParser import AHKLogParser
 
