@@ -41,3 +41,4 @@ nosetests.xml
 venv
 results.txt
 .pytest_cache
+pid.txt
